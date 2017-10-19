@@ -115,7 +115,7 @@ class Backend extends Component {
 				],
 			],
 			$this->settings_slug . '_twitter' => [
-				'api_key'      => [
+				'api_key'        => [
 					'name'              => 'api_key',
 					'label'             => __( 'Consumer Key (API Key)', CAPR_DOMAIN ),
 					'type'              => 'text',
@@ -123,7 +123,7 @@ class Backend extends Component {
 					'default'           => '',
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-				'api_secret'   => [
+				'api_secret'     => [
 					'name'              => 'api_secret',
 					'label'             => __( 'Consumer Secret (API Secret)', CAPR_DOMAIN ),
 					'type'              => 'text',
@@ -132,7 +132,7 @@ class Backend extends Component {
 					'default'           => '',
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-				'callback_url' => [
+				'callback_url'   => [
 					'name'  => 'callback_url',
 					'label' => __( 'Twitter Callback URL', CAPR_DOMAIN ),
 					'type'  => 'html',
@@ -140,11 +140,20 @@ class Backend extends Component {
 					           esc_url( capr_social_media()->get_twitter_callback_url() ) .
 					           '" onfocus="this.select();" />',
 				],
-				'auth_button'  => [
+				'auth_button'    => [
 					'name'     => 'auth_button',
 					'label'    => __( 'Authentication', CAPR_DOMAIN ),
 					'type'     => 'button',
 					'callback' => [ capr_social_media(), 'twitter_authentication_button' ],
+				],
+				'tweet_template' => [
+					'name'    => 'tweet_template',
+					'label'   => __( 'Review Tweet Template', CAPR_DOMAIN ),
+					'type'    => 'textarea',
+					'default' => capr_view( 'tweet_template', null, true ),
+					'size'    => 'large',
+					'desc'    => capr_view( 'tweet_desc', null, true ),
+					'rows'    => 3,
 				],
 			],
 		] ) );

@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Codeable Auto-Post Review 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/codeable-review-auto-post\n"
-"POT-Creation-Date: 2017-10-19 16:15:49+00:00\n"
+"POT-Creation-Date: 2017-10-19 16:52:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -65,23 +65,27 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
+#: includes/classes/Backend.php:151
+msgid "Review Tweet Template"
+msgstr ""
+
 #: includes/classes/Codeable.php:37
 msgid "Twice Hourly"
 msgstr ""
 
-#: includes/classes/Libraries/Settings_API.php:411
+#: includes/classes/Libraries/Settings_API.php:412
 msgid "Choose File"
 msgstr ""
 
-#: includes/classes/Social_Media.php:53
+#: includes/classes/Social_Media.php:54
 msgid "OAth Error"
 msgstr ""
 
-#: includes/classes/Social_Media.php:116
+#: includes/classes/Social_Media.php:117
 msgid "Authenticate"
 msgstr ""
 
-#: includes/classes/Social_Media.php:116
+#: includes/classes/Social_Media.php:117
 msgid "Re-Authenticate"
 msgstr ""
 

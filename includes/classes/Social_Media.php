@@ -38,6 +38,7 @@ class Social_Media extends Component {
 
 		$connection = $this->get_twitter_connection();
 
+		dd( $reviews );
 		// dd( $connection->post( 'statuses/update', [ 'status' => 'okay here' ] ) );
 
 	}

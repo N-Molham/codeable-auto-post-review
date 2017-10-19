@@ -115,12 +115,12 @@ class Settings_API {
 
 		//register settings fields
 		foreach ( $this->settings_fields as $section => $field ) {
-			foreach ( $field as $option ) {
+			foreach ( $field as $field_settings ) {
 
-				$name     = $option['name'];
-				$type     = isset( $option['type'] ) ? $option['type'] : 'text';
-				$label    = isset( $option['label'] ) ? $option['label'] : '';
-				$callback = isset( $option['callback'] ) ? $option['callback'] : [ &$this, 'callback_' . $type ];
+				$name     = $field_settings['name'];
+				$type     = isset( $field_settings['type'] ) ? $field_settings['type'] : 'text';
+				$label    = isset( $field_settings['label'] ) ? $field_settings['label'] : '';
+				$callback = isset( $field_settings['callback'] ) ? $field_settings['callback'] : [ &$this, 'callback_' . $type ];
 				if ( ! is_callable( $callback ) ) {
 					// skip field without a valid type
 					continue;
@@ -128,21 +128,22 @@ class Settings_API {
 
 				$args = [
 					'id'                => $name,
-					'class'             => isset( $option['class'] ) ? $option['class'] : $name,
-					'input_class'       => isset( $option['input_class'] ) ? $option['input_class'] : '',
+					'class'             => isset( $field_settings['class'] ) ? $field_settings['class'] : $name,
+					'input_class'       => isset( $field_settings['input_class'] ) ? $field_settings['input_class'] : '',
 					'label_for'         => "{$section}[{$name}]",
-					'desc'              => isset( $option['desc'] ) ? $option['desc'] : '',
+					'desc'              => isset( $field_settings['desc'] ) ? $field_settings['desc'] : '',
 					'name'              => $label,
 					'section'           => $section,
-					'size'              => isset( $option['size'] ) ? $option['size'] : null,
-					'options'           => isset( $option['options'] ) ? $option['options'] : '',
-					'std'               => isset( $option['default'] ) ? $option['default'] : '',
-					'sanitize_callback' => isset( $option['sanitize_callback'] ) ? $option['sanitize_callback'] : '',
+					'size'              => isset( $field_settings['size'] ) ? $field_settings['size'] : null,
+					'options'           => isset( $field_settings['options'] ) ? $field_settings['options'] : '',
+					'std'               => isset( $field_settings['default'] ) ? $field_settings['default'] : '',
+					'sanitize_callback' => isset( $field_settings['sanitize_callback'] ) ? $field_settings['sanitize_callback'] : '',
 					'type'              => $type,
-					'placeholder'       => isset( $option['placeholder'] ) ? $option['placeholder'] : '',
-					'min'               => isset( $option['min'] ) ? $option['min'] : '',
-					'max'               => isset( $option['max'] ) ? $option['max'] : '',
-					'step'              => isset( $option['step'] ) ? $option['step'] : '',
+					'placeholder'       => isset( $field_settings['placeholder'] ) ? $field_settings['placeholder'] : '',
+					'min'               => isset( $field_settings['min'] ) ? $field_settings['min'] : '',
+					'max'               => isset( $field_settings['max'] ) ? $field_settings['max'] : '',
+					'step'              => isset( $field_settings['step'] ) ? $field_settings['step'] : '',
+					'settings'          => $field_settings,
 				];
 
 				add_settings_field( "{$section}[{$name}]", $label, $callback, $section, $section, $args );
@@ -323,8 +324,8 @@ class Settings_API {
 		$value       = esc_textarea( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 		$size        = isset( $args['size'] ) && null !== $args['size'] ? $args['size'] : 'regular';
 		$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
-		$rows        = isset( $args['rows'] ) ? $args['rows'] : '8';
-		$columns     = isset( $args['cols'] ) ? $args['cols'] : '55';
+		$rows        = isset( $args['settings']['rows'] ) ? $args['settings']['rows'] : '8';
+		$columns     = isset( $args['settings']['cols'] ) ? $args['settings']['cols'] : '55';
 
 		$html = sprintf( '<textarea rows="%6$s" cols="%7$s" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]"%4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $placeholder, $value, $rows, $columns );
 		$html .= $this->get_field_description( $args );

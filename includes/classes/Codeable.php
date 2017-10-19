@@ -68,7 +68,19 @@ class Codeable extends Component {
 		}
 
 		if ( is_array( $reviews ) ) {
-			do_action( 'capr_latest_reviews', $reviews );
+			$last_posted_review = absint( get_option( 'capr_last_posted_review', 0 ) );
+			if ( 0 !== $last_posted_review ) {
+
+				// get reviews after the last one 
+				$reviews = array_filter( $reviews, function ( $review ) use ( $last_posted_review ) {
+					return $review->id > $last_posted_review;
+				} );
+
+			}
+
+			if ( count( $reviews ) ) {
+				do_action( 'capr_latest_reviews', $reviews );
+			}
 		}
 	}
 
