@@ -65,22 +65,46 @@ class Social_Media extends Component {
 	}
 
 	/**
-	 * @param boolean $with_request_token
+	 * @param array $request_token
 	 *
 	 * @return TwitterOAuth
 	 */
 	public function get_twitter_connection( $request_token = null ) {
 
 		if ( null === $this->_twitter_connection ) {
+			$request_token = null === $request_token ? $this->get_twitter_access_token() : $request_token;
+
 			$this->_twitter_connection = new TwitterOAuth(
 				capr_backend()->get_settings( 'api_key', 'twitter' ),
 				capr_backend()->get_settings( 'api_secret', 'twitter' ),
-				$request_token ? $request_token['oauth_token'] : null,
-				$request_token ? $request_token['oauth_token_secret'] : null
+				$request_token['oauth_token'],
+				$request_token['oauth_token_secret']
 			);
 		}
 
 		return $this->_twitter_connection;
+	}
+
+	/**
+	 * Render Twitter Authentication link button
+	 *
+	 * @return void
+	 */
+	public function twitter_authentication_button() {
+
+		$connection    = $this->get_twitter_connection();
+		$request_token = $this->get_twitter_request_token( false );
+		$access_token  = $this->get_twitter_access_token();
+
+		echo '<p><a href="', esc_url( $connection->url( 'oauth/authorize', [ 'oauth_token' => $request_token['oauth_token'] ] ) ), '" class="button">',
+		false === $access_token ? __( 'Authenticate', CAPR_DOMAIN ) : __( 'Re-Authenticate', CAPR_DOMAIN ), '</a></p>';
+
+		if ( false !== $access_token ) {
+			echo '<br/><textarea readonly class="large-text code" rows="20">',
+				"\nAccess Token: " . print_r( $access_token, true ),
+				"\nVerify Credentials: " . print_r( $connection->get( 'account/verify_credentials' ), true ),
+			'</textarea>';
+		}
 	}
 
 	/**
@@ -101,42 +125,22 @@ class Social_Media extends Component {
 		$_SESSION['capr_twitter_request_token'] = $this->get_twitter_connection()->oauth( 'oauth/request_token', [ 'oauth_callback' => $this->get_twitter_callback_url() ] );
 
 		return $_SESSION['capr_twitter_request_token'];
-
 	}
 
 	/**
-	 * Render Twitter Authentication link button
+	 * @param mixed $default
 	 *
-	 * @return void
-	 */
-	public function twitter_authentication_button() {
-
-		$connection    = $this->get_twitter_connection( true );
-		$request_token = $this->get_twitter_request_token( false );
-		$access_token  = $this->get_twitter_access_token();
-
-		if ( false !== $access_token ) {
-			echo '<textarea readonly class="large-text code" rows="8">', print_r( $access_token, true ), '</textarea>';
-		}
-
-		echo '<a href="', esc_url( $connection->url( 'oauth/authorize', [ 'oauth_token' => $request_token['oauth_token'] ] ) ), '" class="button">',
-		false === $access_token ? __( 'Authenticate', CAPR_DOMAIN ) : __( 'Re-Authenticate', CAPR_DOMAIN ), '</a>';
-	}
-
-	/**
-	 * @param bool|array $default
-	 *
-	 * @return array|bool
+	 * @return array
 	 */
 	public function get_twitter_access_token( $default = false ) {
 		return $this->get_social_media_access_token( 'twitter', $default );
 	}
 
 	/**
-	 * @param  string       $media_name
-	 * @param boolean|array $default
+	 * @param string $media_name
+	 * @param mixed  $default
 	 *
-	 * @return array|boolean
+	 * @return array
 	 */
 	public function get_social_media_access_token( $media_name, $default = false ) {
 		return get_option( 'capr_' . $media_name . '_access_token', $default );

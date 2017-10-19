@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Codeable Auto-Post Review 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/codeable-review-auto-post\n"
-"POT-Creation-Date: 2017-10-19 14:00:48+00:00\n"
+"POT-Creation-Date: 2017-10-19 14:55:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -73,11 +73,11 @@ msgstr ""
 msgid "OAth Error"
 msgstr ""
 
-#: includes/classes/Social_Media.php:123
+#: includes/classes/Social_Media.php:100
 msgid "Authenticate"
 msgstr ""
 
-#: includes/classes/Social_Media.php:123
+#: includes/classes/Social_Media.php:100
 msgid "Re-Authenticate"
 msgstr ""
 

@@ -611,10 +611,7 @@ class Settings_API {
 		wp_enqueue_media();
 		wp_enqueue_style( 'wp-color-picker' );
 		wp_enqueue_style( 'mkecs-style', $enqueue_path . 'css/settings_api.css', null, $assets_version );
-		wp_enqueue_script( 'mkecs-admin', $enqueue_path . 'js/settings_api.js', [
-			'jquery',
-			'wp-color-picker',
-		], $assets_version, true );
+		wp_enqueue_script( 'mkecs-admin', $enqueue_path . 'js/settings_api.js', [ 'jquery', 'wp-color-picker' ], $assets_version, true );
 
 		?>
 		<div class="metabox-holder">
