@@ -1,11 +1,11 @@
 <?php namespace Codeable_AutoPost_Review;
 
 /**
- * Frontend logic
+ * Social_Media logic
  *
  * @package Codeable_AutoPost_Review
  */
-class Frontend extends Component {
+class Social_Media extends Component {
 	/**
 	 * Constructor
 	 *

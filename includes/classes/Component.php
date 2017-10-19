@@ -1,9 +1,9 @@
-<?php namespace Codeable_Review_AutoPost;
+<?php namespace Codeable_AutoPost_Review;
 
 /**
  * Base Component
  *
- * @package Codeable_Review_AutoPost
+ * @package Codeable_AutoPost_Review
  */
 class Component extends Singular {
 	/**

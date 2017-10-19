@@ -1,9 +1,9 @@
-<?php namespace Codeable_Review_AutoPost;
+<?php namespace Codeable_AutoPost_Review;
 
 /**
  * AJAX handler
  *
- * @package Codeable_Review_AutoPost
+ * @package Codeable_AutoPost_Review
  */
 class Ajax_Handler extends Component {
 	/**

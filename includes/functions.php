@@ -4,11 +4,12 @@
  * Date: 2016-01-22
  * Time: 2:38 AM
  *
- * @package Codeable_Review_AutoPost
+ * @package Codeable_AutoPost_Review
  */
 
-use Codeable_Review_AutoPost\Component;
-use Codeable_Review_AutoPost\Plugin;
+use Codeable_AutoPost_Review\Component;
+use Codeable_AutoPost_Review\Plugin;
+use Codeable_AutoPost_Review\Social_Media;
 
 if ( ! function_exists( 'codeable_review_auto_post' ) ):
 	/**
@@ -21,7 +22,16 @@ if ( ! function_exists( 'codeable_review_auto_post' ) ):
 	}
 endif;
 
-if ( ! function_exists( 'crap_component' ) ):
+if ( ! function_exists( 'capr_social_media' ) ):
+	/**
+	 * @return Social_Media
+	 */
+	function capr_social_media() {
+		return codeable_review_auto_post()->social_media;
+	}
+endif;
+
+if ( ! function_exists( 'capr_component' ) ):
 	/**
 	 * Get plugin component instance
 	 *
@@ -29,7 +39,7 @@ if ( ! function_exists( 'crap_component' ) ):
 	 *
 	 * @return Component|null
 	 */
-	function crap_component( $component_name ) {
+	function capr_component( $component_name ) {
 		if ( isset( codeable_review_auto_post()->$component_name ) ) {
 			return codeable_review_auto_post()->$component_name;
 		}
@@ -38,7 +48,7 @@ if ( ! function_exists( 'crap_component' ) ):
 	}
 endif;
 
-if ( ! function_exists( 'crap_view' ) ):
+if ( ! function_exists( 'capr_view' ) ):
 	/**
 	 * Load view
 	 *
@@ -48,7 +58,7 @@ if ( ! function_exists( 'crap_view' ) ):
 	 *
 	 * @return void
 	 */
-	function crap_view( $view_name, $args = null, $return = false ) {
+	function capr_view( $view_name, $args = null, $return = false ) {
 		if ( $return ) {
 			// start buffer
 			ob_start();
@@ -63,13 +73,13 @@ if ( ! function_exists( 'crap_view' ) ):
 	}
 endif;
 
-if ( ! function_exists( 'crap_version' ) ):
+if ( ! function_exists( 'capr_version' ) ):
 	/**
 	 * Get plugin version
 	 *
 	 * @return string
 	 */
-	function crap_version() {
+	function capr_version() {
 		return codeable_review_auto_post()->version;
 	}
 endif;

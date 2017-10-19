@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+#mkecs_settings_capabilities.group input[readonly], #capabilities.group textarea[readonly] {
+	width: 100%;
+}
