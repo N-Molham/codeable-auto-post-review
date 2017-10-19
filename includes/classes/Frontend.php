@@ -5,15 +5,13 @@
  *
  * @package Codeable_Review_AutoPost
  */
-class Frontend extends Component
-{
+class Frontend extends Component {
 	/**
 	 * Constructor
 	 *
 	 * @return void
 	 */
-	protected function init()
-	{
+	protected function init() {
 		parent::init();
 	}
 }

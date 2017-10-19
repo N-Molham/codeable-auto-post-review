@@ -10,19 +10,18 @@
 use Codeable_Review_AutoPost\Component;
 use Codeable_Review_AutoPost\Plugin;
 
-if ( !function_exists( 'codeable_review_auto_post' ) ):
+if ( ! function_exists( 'codeable_review_auto_post' ) ):
 	/**
 	 * Get plugin instance
 	 *
 	 * @return Plugin
 	 */
-	function codeable_review_auto_post()
-	{
+	function codeable_review_auto_post() {
 		return Plugin::get_instance();
 	}
 endif;
 
-if ( !function_exists( 'crap_component' ) ):
+if ( ! function_exists( 'crap_component' ) ):
 	/**
 	 * Get plugin component instance
 	 *
@@ -30,10 +29,8 @@ if ( !function_exists( 'crap_component' ) ):
 	 *
 	 * @return Component|null
 	 */
-	function crap_component( $component_name )
-	{
-		if ( isset( codeable_review_auto_post()->$component_name ) )
-		{
+	function crap_component( $component_name ) {
+		if ( isset( codeable_review_auto_post()->$component_name ) ) {
 			return codeable_review_auto_post()->$component_name;
 		}
 
@@ -41,7 +38,7 @@ if ( !function_exists( 'crap_component' ) ):
 	}
 endif;
 
-if ( !function_exists( 'crap_view' ) ):
+if ( ! function_exists( 'crap_view' ) ):
 	/**
 	 * Load view
 	 *
@@ -51,32 +48,28 @@ if ( !function_exists( 'crap_view' ) ):
 	 *
 	 * @return void
 	 */
-	function crap_view( $view_name, $args = null, $return = false )
-	{
-		if ( $return )
-		{
+	function crap_view( $view_name, $args = null, $return = false ) {
+		if ( $return ) {
 			// start buffer
 			ob_start();
 		}
 
 		codeable_review_auto_post()->load_view( $view_name, $args );
 
-		if ( $return )
-		{
+		if ( $return ) {
 			// get buffer flush
 			return ob_get_clean();
 		}
 	}
 endif;
 
-if ( !function_exists( 'crap_version' ) ):
+if ( ! function_exists( 'crap_version' ) ):
 	/**
 	 * Get plugin version
 	 *
 	 * @return string
 	 */
-	function crap_version()
-	{
+	function crap_version() {
 		return codeable_review_auto_post()->version;
 	}
 endif;
