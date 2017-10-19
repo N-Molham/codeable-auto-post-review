@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Codeable Auto-Post Review 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/codeable-review-auto-post\n"
-"POT-Creation-Date: 2017-10-19 14:55:02+00:00\n"
+"POT-Creation-Date: 2017-10-19 16:15:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: codeable-review-auto-post.php:117
+#: codeable-review-auto-post.php:123
 msgid "Template <code>%s</code> File not found, calculated path: <code>%s</code>"
 msgstr ""
 
@@ -65,19 +65,23 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
+#: includes/classes/Codeable.php:37
+msgid "Twice Hourly"
+msgstr ""
+
 #: includes/classes/Libraries/Settings_API.php:411
 msgid "Choose File"
 msgstr ""
 
-#: includes/classes/Social_Media.php:37
+#: includes/classes/Social_Media.php:53
 msgid "OAth Error"
 msgstr ""
 
-#: includes/classes/Social_Media.php:100
+#: includes/classes/Social_Media.php:116
 msgid "Authenticate"
 msgstr ""
 
-#: includes/classes/Social_Media.php:100
+#: includes/classes/Social_Media.php:116
 msgid "Re-Authenticate"
 msgstr ""
 

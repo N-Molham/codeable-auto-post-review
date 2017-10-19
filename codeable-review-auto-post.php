@@ -79,6 +79,11 @@ class Plugin extends Singular {
 	public $ajax;
 
 	/**
+	 * @var Codeable
+	 */
+	public $codeable;
+
+	/**
 	 * Initialization
 	 *
 	 * @return void
@@ -92,6 +97,7 @@ class Plugin extends Singular {
 
 		// modules
 		$this->social_media = Social_Media::get_instance();
+		$this->codeable     = Codeable::get_instance();
 		$this->ajax         = Ajax_Handler::get_instance();
 		$this->backend      = Backend::get_instance();
 		$this->frontend     = Frontend::get_instance();

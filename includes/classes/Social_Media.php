@@ -24,6 +24,22 @@ class Social_Media extends Component {
 
 		// Twitter authentication callback
 		add_action( 'admin_action_capr_auth_twitter', [ &$this, 'authenticate_twitter' ] );
+
+		// Codeable latest reviews
+		add_action( 'capr_latest_reviews', [ &$this, 'publish_on_twitter' ] );
+	}
+
+	/**
+	 * @param array $reviews
+	 *
+	 * @return void
+	 */
+	public function publish_on_twitter( $reviews ) {
+
+		$connection = $this->get_twitter_connection();
+
+		// dd( $connection->post( 'statuses/update', [ 'status' => 'okay here' ] ) );
+
 	}
 
 	/**
