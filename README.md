@@ -1,3 +1,3 @@
-# wp-plugins-boilerplate
+# [Codeable.io](https://goo.gl/L7zn2L) Review Auto-Post
 
-For Documentation go to [Wiki](https://github.com/N-Molham/wp-plugins-boilerplate/wiki)
+Auto-post review to your social media when new review is given
