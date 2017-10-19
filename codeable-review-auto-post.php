@@ -32,6 +32,7 @@ define( 'CAPR_URI', plugin_dir_url( CAPR_MAIN_FILE ) );
 // localization text Domain
 define( 'CAPR_DOMAIN', 'codeable-auto-post-review' );
 
+require_once CAPR_DIR . 'vendor/autoload.php';
 require_once CAPR_DIR . 'includes/classes/Singular.php';
 require_once CAPR_DIR . 'includes/helpers.php';
 require_once CAPR_DIR . 'includes/functions.php';

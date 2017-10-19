@@ -13,7 +13,7 @@ class Backend extends Component {
 	 *
 	 * @var string
 	 */
-	protected $settings_prefix;
+	protected $settings_slug;
 
 	/**
 	 * Settings API instance
@@ -31,8 +31,8 @@ class Backend extends Component {
 		parent::init();
 
 		// vars
-		$this->settings_prefix = 'capr_settings_';
-		$this->settings        = new Settings_API();
+		$this->settings_slug = 'capr_settings';
+		$this->settings      = new Settings_API();
 
 		// System initialized
 		add_action( 'init', [ &$this, 'register_settings_fields' ] );
@@ -63,7 +63,7 @@ class Backend extends Component {
 			__( 'Codeable Auto-Post Review', CAPR_DOMAIN ),
 			__( 'Codeable Auto-Post Review', CAPR_DOMAIN ),
 			'manage_options',
-			$this->settings_prefix . 'page',
+			$this->settings_slug . '_page',
 			[ &$this, 'settings_page_render' ]
 		);
 	}
@@ -85,16 +85,20 @@ class Backend extends Component {
 	 */
 	public function register_settings_fields() {
 		// sections
-		$this->settings->set_sections( [
+		$this->settings->set_sections( (array) apply_filters( 'capr_settings_sections', [
 			[
-				'id'    => $this->settings_prefix . 'general',
+				'id'    => $this->settings_slug . '_general',
 				'title' => __( 'General', CAPR_DOMAIN ),
 			],
-		] );
+			[
+				'id'    => $this->settings_slug . '_twitter',
+				'title' => __( 'Twitter', CAPR_DOMAIN ),
+			],
+		] ) );
 
-		$this->settings->set_fields( [
-			$this->settings_prefix . 'general' => [
-				'enabled'              => [
+		$this->settings->set_fields( (array) apply_filters( 'capr_settings_fields', [
+			$this->settings_slug . '_general' => [
+				'enabled'          => [
 					'name'              => 'enabled',
 					'label'             => __( 'Enabled', CAPR_DOMAIN ),
 					'type'              => 'checkbox',
@@ -102,21 +106,48 @@ class Backend extends Component {
 					'desc'              => 'Yes',
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-				'codeable_user_id'     => [
+				'codeable_user_id' => [
 					'name'              => 'codeable_user_id',
 					'label'             => __( 'Codeable User/Expert ID', CAPR_DOMAIN ),
 					'type'              => 'text',
 					'default'           => '',
 					'sanitize_callback' => 'sanitize_text_field',
 				],
-				'twitter_callback_url' => [
-					'name'  => 'twitter_callback_url',
+			],
+			$this->settings_slug . '_twitter' => [
+				'api_key'      => [
+					'name'              => 'api_key',
+					'label'             => __( 'Consumer Key (API Key)', CAPR_DOMAIN ),
+					'type'              => 'text',
+					'input_class'       => 'code',
+					'default'           => '',
+					'sanitize_callback' => 'sanitize_text_field',
+				],
+				'api_secret'   => [
+					'name'              => 'api_secret',
+					'label'             => __( 'Consumer Secret (API Secret)', CAPR_DOMAIN ),
+					'type'              => 'text',
+					'size'              => 'large',
+					'input_class'       => 'code',
+					'default'           => '',
+					'sanitize_callback' => 'sanitize_text_field',
+				],
+				'callback_url' => [
+					'name'  => 'callback_url',
 					'label' => __( 'Twitter Callback URL', CAPR_DOMAIN ),
 					'type'  => 'html',
-					'desc'  => '<input type="text" readonly="readonly" id="general[twitter_callback_url]" class="large-text code" value="' . esc_url( '' ) . '" onfocus="this.select();" />',
+					'desc'  => '<input type="text" readonly="readonly" class="large-text code" value="' .
+					           esc_url( capr_social_media()->get_twitter_callback_url() ) .
+					           '" onfocus="this.select();" />',
+				],
+				'auth_button'  => [
+					'name'     => 'auth_button',
+					'label'    => __( 'Authentication', CAPR_DOMAIN ),
+					'type'     => 'button',
+					'callback' => [ capr_social_media(), 'twitter_authentication_button' ],
 				],
 			],
-		] );
+		] ) );
 	}
 
 	/**
@@ -128,6 +159,13 @@ class Backend extends Component {
 	 * @return mixed
 	 */
 	public function get_settings( $field, $section = 'general' ) {
-		return $this->settings->get_option( $field, $this->settings_prefix . $section );
+		return $this->settings->get_option( $field, $this->settings_slug . '_' . $section );
+	}
+
+	/**
+	 * @return string
+	 */
+	public function get_settings_slug() {
+		return $this->settings_slug;
 	}
 }

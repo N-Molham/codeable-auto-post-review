@@ -129,6 +129,7 @@ class Settings_API {
 				$args = [
 					'id'                => $name,
 					'class'             => isset( $option['class'] ) ? $option['class'] : $name,
+					'input_class'       => isset( $option['input_class'] ) ? $option['input_class'] : '',
 					'label_for'         => "{$section}[{$name}]",
 					'desc'              => isset( $option['desc'] ) ? $option['desc'] : '',
 					'name'              => $label,
@@ -179,7 +180,7 @@ class Settings_API {
 		$type        = isset( $args['type'] ) ? $args['type'] : 'text';
 		$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
-		$html = sprintf( '<input type="%1$s" class="%2$s-text" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder );
+		$html = sprintf( '<input type="%1$s" class="%2$s-text %7$s" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder, $args['input_class'] );
 		$html .= $this->get_field_description( $args );
 
 		echo $html;

@@ -7,6 +7,7 @@
  * @package Codeable_AutoPost_Review
  */
 
+use Codeable_AutoPost_Review\Backend;
 use Codeable_AutoPost_Review\Component;
 use Codeable_AutoPost_Review\Plugin;
 use Codeable_AutoPost_Review\Social_Media;
@@ -19,6 +20,15 @@ if ( ! function_exists( 'codeable_review_auto_post' ) ):
 	 */
 	function codeable_review_auto_post() {
 		return Plugin::get_instance();
+	}
+endif;
+
+if ( ! function_exists( 'capr_backend' ) ):
+	/**
+	 * @return Backend
+	 */
+	function capr_backend() {
+		return codeable_review_auto_post()->backend;
 	}
 endif;
 
