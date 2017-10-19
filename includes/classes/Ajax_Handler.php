@@ -1,9 +1,9 @@
-<?php namespace WP_Plugins\Boilerplate;
+<?php namespace Codeable_Review_AutoPost;
 
 /**
  * AJAX handler
  *
- * @package WP_Plugins\Boilerplate
+ * @package Codeable_Review_AutoPost
  */
 class Ajax_Handler extends Component
 {

@@ -1,12 +1,12 @@
-<?php namespace WP_Plugins\Boilerplate;
+<?php namespace Codeable_Review_AutoPost;
 
 /**
- * Plugin Name: WP Plugins Boilerplate
- * Description: Plugin Description
+ * Plugin Name: Codeable Review Auto-Post
+ * Description: Auto-post review to your social media when new review is given
  * Version: 1.0.0
  * Author: Nabeel Molham
- * Author URI: http://nabeel.molham.me/
- * Text Domain: wp-plugin-domain
+ * Author URI: https://nabeel.molham.me/
+ * Text Domain: codeable-review-auto-post
  * Domain Path: /languages
  * License: GNU General Public License, version 3, http://www.gnu.org/licenses/gpl-3.0.en.html
  */
@@ -22,25 +22,25 @@ if ( !defined( 'WPINC' ) )
  */
 
 // plugin master file
-define( 'WPPB_MAIN_FILE', __FILE__ );
+define( 'CRAP_MAIN_FILE', __FILE__ );
 
 // plugin DIR
-define( 'WPPB_DIR', plugin_dir_path( WPPB_MAIN_FILE ) );
+define( 'CRAP_DIR', plugin_dir_path( CRAP_MAIN_FILE ) );
 
 // plugin URI
-define( 'WPPB_URI', plugin_dir_url( WPPB_MAIN_FILE ) );
+define( 'CRAP_URI', plugin_dir_url( CRAP_MAIN_FILE ) );
 
 // localization text Domain
-define( 'WPPB_DOMAIN', 'wp-plugin-domain' );
+define( 'CRAP_DOMAIN', 'codeable-review-auto-post' );
 
-require_once WPPB_DIR . 'includes/classes/Singular.php';
-require_once WPPB_DIR . 'includes/helpers.php';
-require_once WPPB_DIR . 'includes/functions.php';
+require_once CRAP_DIR . 'includes/classes/Singular.php';
+require_once CRAP_DIR . 'includes/helpers.php';
+require_once CRAP_DIR . 'includes/functions.php';
 
 /**
  * Plugin main component
  *
- * @package WP_Plugins\Boilerplate
+ * @package Codeable_Review_AutoPost
  */
 class Plugin extends Singular
 {
@@ -99,7 +99,7 @@ class Plugin extends Singular
 		$this->frontend = Frontend::get_instance();
 
 		// plugin loaded hook
-		do_action_ref_array( 'wppb_loaded', [ &$this ] );
+		do_action_ref_array( 'crap_loaded', [ &$this ] );
 	}
 
 	/**
@@ -114,11 +114,11 @@ class Plugin extends Singular
 	{
 		// build view file path
 		$__view_name     = $view_name;
-		$__template_path = WPPB_DIR . 'views/' . $__view_name . '.php';
+		$__template_path = CRAP_DIR . 'views/' . $__view_name . '.php';
 		if ( !file_exists( $__template_path ) )
 		{
 			// file not found!
-			wp_die( sprintf( __( 'Template <code>%s</code> File not found, calculated path: <code>%s</code>', WPPB_DOMAIN ), $__view_name, $__template_path ) );
+			wp_die( sprintf( __( 'Template <code>%s</code> File not found, calculated path: <code>%s</code>', CRAP_DOMAIN ), $__view_name, $__template_path ) );
 		}
 
 		// clear vars
@@ -136,7 +136,7 @@ class Plugin extends Singular
 		 * @param string $__template_path
 		 * @param string $__view_name
 		 */
-		do_action_ref_array( 'wppb_load_template_before', [ &$__template_path, $__view_name, $args ] );
+		do_action_ref_array( 'crap_load_template_before', [ &$__template_path, $__view_name, $args ] );
 
 		/**
 		 * Loading template file path filter
@@ -146,7 +146,7 @@ class Plugin extends Singular
 		 *
 		 * @return string
 		 */
-		require apply_filters( 'wppb_load_template_path', $__template_path, $__view_name, $args );
+		require apply_filters( 'crap_load_template_path', $__template_path, $__view_name, $args );
 
 		/**
 		 * After loading template hook
@@ -154,7 +154,7 @@ class Plugin extends Singular
 		 * @param string $__template_path
 		 * @param string $__view_name
 		 */
-		do_action( 'wppb_load_template_after', $__template_path, $__view_name, $args );
+		do_action( 'crap_load_template_after', $__template_path, $__view_name, $args );
 	}
 
 	/**
@@ -164,7 +164,7 @@ class Plugin extends Singular
 	 */
 	public function load_language()
 	{
-		load_plugin_textdomain( WPPB_DOMAIN, false, dirname( plugin_basename( WPPB_MAIN_FILE ) ) . '/languages' );
+		load_plugin_textdomain( CRAP_DOMAIN, false, dirname( plugin_basename( CRAP_MAIN_FILE ) ) . '/languages' );
 	}
 
 	/**
@@ -182,7 +182,7 @@ class Plugin extends Singular
 			return;
 		}
 
-		$class_path = WPPB_DIR . 'includes' . DIRECTORY_SEPARATOR . 'classes' . str_replace( [
+		$class_path = CRAP_DIR . 'includes' . DIRECTORY_SEPARATOR . 'classes' . str_replace( [
 				__NAMESPACE__,
 				'\\',
 			], [ '', DIRECTORY_SEPARATOR ], $class_name ) . '.php';
@@ -196,4 +196,4 @@ class Plugin extends Singular
 }
 
 // boot up the system
-wp_plugin_boilerplate();
+codeable_review_auto_post();

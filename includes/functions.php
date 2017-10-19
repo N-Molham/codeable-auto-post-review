@@ -4,25 +4,25 @@
  * Date: 2016-01-22
  * Time: 2:38 AM
  *
- * @package WP_Plugins\Boilerplate
+ * @package Codeable_Review_AutoPost
  */
 
-use WP_Plugins\Boilerplate\Component;
-use WP_Plugins\Boilerplate\Plugin;
+use Codeable_Review_AutoPost\Component;
+use Codeable_Review_AutoPost\Plugin;
 
-if ( !function_exists( 'wp_plugin_boilerplate' ) ):
+if ( !function_exists( 'codeable_review_auto_post' ) ):
 	/**
 	 * Get plugin instance
 	 *
 	 * @return Plugin
 	 */
-	function wp_plugin_boilerplate()
+	function codeable_review_auto_post()
 	{
 		return Plugin::get_instance();
 	}
 endif;
 
-if ( !function_exists( 'wppb_component' ) ):
+if ( !function_exists( 'crap_component' ) ):
 	/**
 	 * Get plugin component instance
 	 *
@@ -30,18 +30,18 @@ if ( !function_exists( 'wppb_component' ) ):
 	 *
 	 * @return Component|null
 	 */
-	function wppb_component( $component_name )
+	function crap_component( $component_name )
 	{
-		if ( isset( wp_plugin_boilerplate()->$component_name ) )
+		if ( isset( codeable_review_auto_post()->$component_name ) )
 		{
-			return wp_plugin_boilerplate()->$component_name;
+			return codeable_review_auto_post()->$component_name;
 		}
 
 		return null;
 	}
 endif;
 
-if ( !function_exists( 'wppb_view' ) ):
+if ( !function_exists( 'crap_view' ) ):
 	/**
 	 * Load view
 	 *
@@ -51,7 +51,7 @@ if ( !function_exists( 'wppb_view' ) ):
 	 *
 	 * @return void
 	 */
-	function wppb_view( $view_name, $args = null, $return = false )
+	function crap_view( $view_name, $args = null, $return = false )
 	{
 		if ( $return )
 		{
@@ -59,7 +59,7 @@ if ( !function_exists( 'wppb_view' ) ):
 			ob_start();
 		}
 
-		wp_plugin_boilerplate()->load_view( $view_name, $args );
+		codeable_review_auto_post()->load_view( $view_name, $args );
 
 		if ( $return )
 		{
@@ -69,14 +69,14 @@ if ( !function_exists( 'wppb_view' ) ):
 	}
 endif;
 
-if ( !function_exists( 'wppb_version' ) ):
+if ( !function_exists( 'crap_version' ) ):
 	/**
 	 * Get plugin version
 	 *
 	 * @return string
 	 */
-	function wppb_version()
+	function crap_version()
 	{
-		return wp_plugin_boilerplate()->version;
+		return codeable_review_auto_post()->version;
 	}
 endif;

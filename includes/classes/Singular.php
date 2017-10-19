@@ -1,9 +1,9 @@
-<?php namespace WP_Plugins\Boilerplate;
+<?php namespace Codeable_Review_AutoPost;
 
 /**
  * Class Singular
  *
- * @package WP_Plugins\Boilerplate
+ * @package Codeable_Review_AutoPost
  */
 class Singular
 {

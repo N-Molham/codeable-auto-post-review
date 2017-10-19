@@ -1,9 +1,9 @@
-<?php namespace WP_Plugins\Boilerplate;
+<?php namespace Codeable_Review_AutoPost;
 
 /**
  * Embedding ACF Pro component
  *
- * @package WP_Plugins\Boilerplate
+ * @package Codeable_Review_AutoPost
  */
 class ACF_Pro_Loader extends Component
 {
@@ -30,7 +30,7 @@ class ACF_Pro_Loader extends Component
 	{
 		parent::init();
 
-		$acf_file_path = WPPB_DIR . self::$path . 'acf.php';
+		$acf_file_path = CRAP_DIR . self::$path . 'acf.php';
 		if ( false === file_exists( $acf_file_path ) )
 		{
 			// file not found!
@@ -66,7 +66,7 @@ class ACF_Pro_Loader extends Component
 		}
 
 		// append new path
-		$paths[] = WPPB_DIR . self::$json;
+		$paths[] = CRAP_DIR . self::$json;
 
 		return $paths;
 	}
@@ -79,7 +79,7 @@ class ACF_Pro_Loader extends Component
 	public static function save_json_path()
 	{
 		// return
-		return WPPB_DIR . self::$json;
+		return CRAP_DIR . self::$json;
 	}
 
 	/**
@@ -90,7 +90,7 @@ class ACF_Pro_Loader extends Component
 	public static function settings_path()
 	{
 		// return
-		return WPPB_DIR . self::$path;
+		return CRAP_DIR . self::$path;
 	}
 
 	/**
@@ -101,6 +101,6 @@ class ACF_Pro_Loader extends Component
 	public static function settings_dir()
 	{
 		// return
-		return WPPB_URI . self::$path;
+		return CRAP_URI . self::$path;
 	}
 }
