@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Codeable Auto-Post Review 1.0.0\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/codeable-review-auto-post\n"
-"POT-Creation-Date: 2017-10-19 16:52:21+00:00\n"
+"POT-Creation-Date: 2017-10-23 16:45:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +25,7 @@ msgstr ""
 "X-Poedit-Bookmarks: \n"
 "X-Textdomain-Support: yes\n"
 
-#: codeable-review-auto-post.php:123
+#: codeable-review-auto-post.php:124
 msgid "Template <code>%s</code> File not found, calculated path: <code>%s</code>"
 msgstr ""
 
@@ -42,11 +42,11 @@ msgid "Twitter"
 msgstr ""
 
 #: includes/classes/Backend.php:103
-msgid "Enabled"
+msgid "Codeable User/Expert ID"
 msgstr ""
 
-#: includes/classes/Backend.php:111
-msgid "Codeable User/Expert ID"
+#: includes/classes/Backend.php:112
+msgid "Enabled"
 msgstr ""
 
 #: includes/classes/Backend.php:120
@@ -77,16 +77,20 @@ msgstr ""
 msgid "Choose File"
 msgstr ""
 
-#: includes/classes/Social_Media.php:54
+#: includes/classes/Social_Media.php:61
 msgid "OAth Error"
 msgstr ""
 
-#: includes/classes/Social_Media.php:117
+#: includes/classes/Social_Media.php:124
 msgid "Authenticate"
 msgstr ""
 
-#: includes/classes/Social_Media.php:117
+#: includes/classes/Social_Media.php:124
 msgid "Re-Authenticate"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/N-Molham/codeable-auto-post-review"
 msgstr ""
 
 #. Description of the plugin/theme

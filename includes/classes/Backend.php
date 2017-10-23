@@ -98,14 +98,6 @@ class Backend extends Component {
 
 		$this->settings->set_fields( (array) apply_filters( 'capr_settings_fields', [
 			$this->settings_slug . '_general' => [
-				'enabled'          => [
-					'name'              => 'enabled',
-					'label'             => __( 'Enabled', CAPR_DOMAIN ),
-					'type'              => 'checkbox',
-					'default'           => 'off',
-					'desc'              => 'Yes',
-					'sanitize_callback' => 'sanitize_text_field',
-				],
 				'codeable_user_id' => [
 					'name'              => 'codeable_user_id',
 					'label'             => __( 'Codeable User/Expert ID', CAPR_DOMAIN ),
@@ -115,6 +107,14 @@ class Backend extends Component {
 				],
 			],
 			$this->settings_slug . '_twitter' => [
+				'enabled'        => [
+					'name'              => 'enabled',
+					'label'             => __( 'Enabled', CAPR_DOMAIN ),
+					'type'              => 'checkbox',
+					'default'           => 'off',
+					'desc'              => 'Yes',
+					'sanitize_callback' => 'sanitize_text_field',
+				],
 				'api_key'        => [
 					'name'              => 'api_key',
 					'label'             => __( 'Consumer Key (API Key)', CAPR_DOMAIN ),

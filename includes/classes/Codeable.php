@@ -68,7 +68,7 @@ class Codeable extends Component {
 		}
 
 		if ( is_array( $reviews ) ) {
-			$last_posted_review = absint( get_option( 'capr_last_posted_review', 0 ) );
+			$last_posted_review = $this->get_last_posted_review();
 			if ( 0 !== $last_posted_review ) {
 
 				// get reviews after the last one 
@@ -78,10 +78,37 @@ class Codeable extends Component {
 
 			}
 
-			if ( count( $reviews ) ) {
-				do_action( 'capr_latest_reviews', $reviews );
+			foreach ( $reviews as $review ) {
+				/**
+				 * @param \stdClass $review
+				 */
+				do_action( 'capr_latest_review', $review );
+
+				$this->update_last_posted_review( $review->id );
 			}
 		}
+	}
+
+	/**
+	 * @return int
+	 */
+	public function get_last_posted_review() {
+		return (int) get_option( 'capr_last_posted_review', 0 );
+	}
+
+	/**
+	 * @param int $review_id
+	 *
+	 * @return void
+	 */
+	public function update_last_posted_review( $review_id ) {
+
+		$last_posted_review = $this->get_last_posted_review();
+
+		if ( $review_id > $last_posted_review ) {
+			update_option( 'capr_last_posted_review', $review_id, 'no' );
+		}
+
 	}
 
 	/**

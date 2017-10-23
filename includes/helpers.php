@@ -124,6 +124,36 @@ final class Helpers {
 	}
 
 	/**
+	 * @param object $object
+	 * @param string $path
+	 * @param string $separator
+	 *
+	 * @return mixed
+	 */
+	public static function get_object_prop( $object, $path, $separator = '.' ) {
+		$path_keys = explode( $separator, $path );
+		$target    = null;
+
+		foreach ( $path_keys as $key ) {
+
+			// first level
+			if ( null === $target && isset( $object->$key ) ) {
+				$target = $object->$key;
+				continue;
+			}
+
+			// skip not found index
+			if ( ! is_object( $target ) || ! isset( $target->$key ) ) {
+				return null;
+			}
+
+			$target = $target->$key;
+		}
+
+		return $target;
+	}
+
+	/**
 	 * Sanitizes a hex color.
 	 *
 	 * Returns either '', a 3 or 6 digit hex color (with #), or null.

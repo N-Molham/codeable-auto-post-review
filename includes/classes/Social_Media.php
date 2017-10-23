@@ -1,6 +1,7 @@
 <?php namespace Codeable_AutoPost_Review;
 
 use Abraham\TwitterOAuth\TwitterOAuth;
+use stdClass;
 
 /**
  * Social_Media logic
@@ -26,21 +27,27 @@ class Social_Media extends Component {
 		add_action( 'admin_action_capr_auth_twitter', [ &$this, 'authenticate_twitter' ] );
 
 		// Codeable latest reviews
-		add_action( 'capr_latest_reviews', [ &$this, 'publish_on_twitter' ] );
+		add_action( 'capr_latest_review', [ &$this, 'publish_on_twitter' ] );
 	}
 
 	/**
-	 * @param array $reviews
+	 * @param stdClass $review
 	 *
 	 * @return void
 	 */
-	public function publish_on_twitter( $reviews ) {
+	public function publish_on_twitter( $review ) {
+
+		// twitter isn't enabled
+		if ( 'on' !== capr_backend()->get_settings( 'enabled', 'twitter' ) ) {
+			return;
+		}
 
 		$connection = $this->get_twitter_connection();
+		$tweet_body = $this->parse_review_template( $review, capr_backend()->get_settings( 'tweet_template', 'twitter' ) );
 
-		dd( $reviews );
-		// dd( $connection->post( 'statuses/update', [ 'status' => 'okay here' ] ) );
-
+		if ( $tweet_body ) {
+			$connection->post( 'statuses/update', [ 'status' => $tweet_body ] );
+		}
 	}
 
 	/**
@@ -161,5 +168,47 @@ class Social_Media extends Component {
 	 */
 	public function get_social_media_access_token( $media_name, $default = false ) {
 		return get_option( 'capr_' . $media_name . '_access_token', $default );
+	}
+
+	/**
+	 * Parse template placeholders with given review
+	 *
+	 * @param stdClass $review
+	 * @param string   $template
+	 *
+	 * @return string
+	 */
+	public function parse_review_template( $review, $template ) {
+
+		// extract placeholder
+		preg_match_all( '/\{([a-zA-Z_\.]+)\}/', $template, $template_vars );
+
+		$var_replacements = [];
+
+		if ( ! empty( $template_vars[1] ) ) {
+
+			foreach ( $template_vars[1] as $var_index => $var_name ) {
+
+				$var_value = Helpers::get_object_prop( $review, $var_name );
+				if ( null === $var_value ) {
+					continue;
+				}
+
+				$var_replacements[ $template_vars[0][ $var_index ] ] = $var_value;
+			}
+
+			if ( count( $var_replacements ) ) {
+				$template = str_replace( array_keys( $var_replacements ), array_values( $var_replacements ), $template );
+			}
+		}
+
+		/**
+		 * @param string   $template
+		 * @param array    $var_replacements
+		 * @param stdClass $review
+		 *
+		 * @return string
+		 */
+		return (string) apply_filters( 'capr_parsed_review_template', $template, $var_replacements, $review );
 	}
 }

@@ -9,6 +9,7 @@
  * Text Domain: codeable-auto-post-review
  * Domain Path: /languages
  * License: GNU General Public License, version 3, http://www.gnu.org/licenses/gpl-3.0.en.html
+ * GitHub Plugin URI: https://github.com/N-Molham/codeable-auto-post-review
  */
 
 if ( ! defined( 'WPINC' ) ) {

@@ -1,1 +1,1 @@
-New {score}/5 star review on @codeablehq, from {reviewer.full_name} https://codeable.io/developer/your-name
+New {score}/5 star review on @codeablehq, from {reviewer.full_name} https://codeable.io/developer/your-name//#reviews
