@@ -6,6 +6,7 @@
  * @package Codeable_AutoPost_Review
  */
 class Singular {
+
 	/**
 	 * Singular instance holder
 	 *
@@ -29,9 +30,10 @@ class Singular {
 	 *
 	 * @return static
 	 */
-	public static function &get_instance( $args = '' ) {
+	public static function get_instance( $args = '' ) {
+
 		// use 5.4 method for backward compatibility
-		$class_name = get_called_class();
+		$class_name = static::class;
 
 		if ( ! isset( self::$static[ $class_name ] ) ) {
 			// create the instance of not yet created
@@ -41,17 +43,21 @@ class Singular {
 				// run initialization method if exists
 				$num_args = func_num_args();
 				$args     = func_get_args();
-				if ( $num_args == 0 ) {
+				if ( 0 === $num_args ) {
+					
 					// call without args
 					self::$static[ $class_name ]->init();
+					
+				} else if ( 1 === $num_args ) {
+					
+					// pass on one argument
+					self::$static[ $class_name ]->init( $args[0] );
+					
 				} else {
-					if ( $num_args == 1 ) {
-						// pass on one argument
-						self::$static[ $class_name ]->init( $args[0] );
-					} else {
-						// pass on all argument
-						call_user_func_array( [ self::$static[ $class_name ], 'init' ], $args );
-					}
+					
+					// pass on all argument
+					call_user_func_array( [ self::$static[ $class_name ], 'init' ], $args );
+					
 				}
 			}
 		}

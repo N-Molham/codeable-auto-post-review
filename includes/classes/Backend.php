@@ -8,6 +8,7 @@ use Codeable_AutoPost_Review\Libraries\Settings_API;
  * @package Codeable_AutoPost_Review
  */
 class Backend extends Component {
+
 	/**
 	 * Plugin's settings page slug
 	 *
@@ -28,6 +29,7 @@ class Backend extends Component {
 	 * @return void
 	 */
 	protected function init() {
+
 		parent::init();
 
 		// vars
@@ -35,13 +37,13 @@ class Backend extends Component {
 		$this->settings      = new Settings_API();
 
 		// System initialized
-		add_action( 'init', [ &$this, 'register_settings_fields' ] );
+		add_action( 'init', [ $this, 'register_settings_fields' ] );
 
 		// Dashboard admin initialization
-		add_action( 'admin_init', [ &$this, 'settings_init' ] );
+		add_action( 'admin_init', [ $this, 'settings_init' ] );
 
 		// Dashboard admin menu
-		add_action( 'admin_menu', [ &$this, 'register_settings_menu_page' ] );
+		add_action( 'admin_menu', [ $this, 'register_settings_menu_page' ] );
 	}
 
 	/**
@@ -50,6 +52,7 @@ class Backend extends Component {
 	 * @return void
 	 */
 	public function settings_init() {
+
 		$this->settings->admin_init();
 	}
 
@@ -59,12 +62,13 @@ class Backend extends Component {
 	 * @return void
 	 */
 	public function register_settings_menu_page() {
+
 		add_options_page(
 			__( 'Codeable Auto-Post Review', CAPR_DOMAIN ),
 			__( 'Codeable Auto-Post Review', CAPR_DOMAIN ),
 			'manage_options',
 			$this->settings_slug . '_page',
-			[ &$this, 'settings_page_render' ]
+			[ $this, 'settings_page_render' ]
 		);
 	}
 
@@ -74,6 +78,7 @@ class Backend extends Component {
 	 * @return void
 	 */
 	public function settings_page_render() {
+
 		echo '<div class="wrap">';
 		$this->settings->show_navigation();
 		$this->settings->show_forms();
@@ -84,6 +89,7 @@ class Backend extends Component {
 	 * @return void
 	 */
 	public function register_settings_fields() {
+
 		// sections
 		$this->settings->set_sections( (array) apply_filters( 'capr_settings_sections', [
 			[
@@ -165,16 +171,19 @@ class Backend extends Component {
 	 * @param string $field
 	 * @param string $section
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function get_settings( $field, $section = 'general' ) {
+
 		return $this->settings->get_option( $field, $this->settings_slug . '_' . $section );
+		
 	}
 
 	/**
 	 * @return string
 	 */
 	public function get_settings_slug() {
+
 		return $this->settings_slug;
 	}
 }

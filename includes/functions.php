@@ -20,6 +20,7 @@ if ( ! function_exists( 'codeable_review_auto_post' ) ):
 	 * @return Plugin
 	 */
 	function codeable_review_auto_post() {
+
 		return Plugin::get_instance();
 	}
 endif;
@@ -29,6 +30,7 @@ if ( ! function_exists( 'capr_codeable' ) ):
 	 * @return Codeable
 	 */
 	function capr_codeable() {
+
 		return codeable_review_auto_post()->codeable;
 	}
 endif;
@@ -38,6 +40,7 @@ if ( ! function_exists( 'capr_backend' ) ):
 	 * @return Backend
 	 */
 	function capr_backend() {
+
 		return codeable_review_auto_post()->backend;
 	}
 endif;
@@ -47,6 +50,7 @@ if ( ! function_exists( 'capr_social_media' ) ):
 	 * @return Social_Media
 	 */
 	function capr_social_media() {
+
 		return codeable_review_auto_post()->social_media;
 	}
 endif;
@@ -60,6 +64,7 @@ if ( ! function_exists( 'capr_component' ) ):
 	 * @return Component|null
 	 */
 	function capr_component( $component_name ) {
+
 		if ( isset( codeable_review_auto_post()->$component_name ) ) {
 			return codeable_review_auto_post()->$component_name;
 		}
@@ -79,6 +84,7 @@ if ( ! function_exists( 'capr_view' ) ):
 	 * @return void
 	 */
 	function capr_view( $view_name, $args = null, $return = false ) {
+
 		if ( $return ) {
 			// start buffer
 			ob_start();
@@ -100,6 +106,7 @@ if ( ! function_exists( 'capr_version' ) ):
 	 * @return string
 	 */
 	function capr_version() {
+
 		return codeable_review_auto_post()->version;
 	}
 endif;

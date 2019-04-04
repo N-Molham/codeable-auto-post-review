@@ -1,5 +1,7 @@
 <?php namespace Codeable_AutoPost_Review;
 
+use Exception;
+
 /**
  * Plugin Name: Codeable Auto-Post Review
  * Description: Auto-post review to your social media when new review is given
@@ -44,6 +46,7 @@ require_once CAPR_DIR . 'includes/functions.php';
  * @package Codeable_AutoPost_Review
  */
 class Plugin extends Singular {
+
 	/**
 	 * Plugin version
 	 *
@@ -88,13 +91,15 @@ class Plugin extends Singular {
 	 * Initialization
 	 *
 	 * @return void
+	 * @throws Exception
 	 */
 	protected function init() {
+
 		// load language files
-		add_action( 'plugins_loaded', [ &$this, 'load_language' ] );
+		add_action( 'plugins_loaded', [ $this, 'load_language' ] );
 
 		// autoloader register
-		spl_autoload_register( [ &$this, 'autoloader' ] );
+		spl_autoload_register( [ $this, 'autoloader' ] );
 
 		// modules
 		$this->social_media = Social_Media::get_instance();
@@ -104,7 +109,7 @@ class Plugin extends Singular {
 		$this->frontend     = Frontend::get_instance();
 
 		// plugin loaded hook
-		do_action_ref_array( 'CAPR_loaded', [ &$this ] );
+		do_action_ref_array( 'CAPR_loaded', [ $this ] );
 	}
 
 	/**
@@ -116,6 +121,7 @@ class Plugin extends Singular {
 	 * @return void
 	 */
 	public function load_view( $view_name, $args = null ) {
+
 		// build view file path
 		$__view_name     = $view_name;
 		$__template_path = CAPR_DIR . 'views/' . $__view_name . '.php';
@@ -165,6 +171,7 @@ class Plugin extends Singular {
 	 * @return void
 	 */
 	public function load_language() {
+
 		load_plugin_textdomain( CAPR_DOMAIN, false, dirname( plugin_basename( CAPR_MAIN_FILE ) ) . '/languages' );
 	}
 
@@ -176,6 +183,7 @@ class Plugin extends Singular {
 	 * @return void
 	 */
 	public function autoloader( $class_name ) {
+
 		if ( strpos( $class_name, __NAMESPACE__ ) === false ) {
 			// skip non related classes
 			return;

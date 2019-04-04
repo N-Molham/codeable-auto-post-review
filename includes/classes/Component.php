@@ -6,6 +6,7 @@
  * @package Codeable_AutoPost_Review
  */
 class Component extends Singular {
+
 	/**
 	 * Plugin Main Component
 	 *
@@ -19,7 +20,9 @@ class Component extends Singular {
 	 * @return void
 	 */
 	protected function init() {
+
 		// vars
 		$this->plugin = Plugin::get_instance();
+		
 	}
 }

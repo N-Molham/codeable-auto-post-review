@@ -1,29 +1,29 @@
 [
     {
         "name": "abraham/twitteroauth",
-        "version": "0.7.4",
-        "version_normalized": "0.7.4.0",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/abraham/twitteroauth.git",
-            "reference": "c6f9e692552dd037b2324ed0dfa28a4e60875acf"
+            "reference": "ed70c5de0ea33439fde124d0d7109460bbb59a71"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/c6f9e692552dd037b2324ed0dfa28a4e60875acf",
-            "reference": "c6f9e692552dd037b2324ed0dfa28a4e60875acf",
+            "url": "https://api.github.com/repos/abraham/twitteroauth/zipball/ed70c5de0ea33439fde124d0d7109460bbb59a71",
+            "reference": "ed70c5de0ea33439fde124d0d7109460bbb59a71",
             "shasum": ""
         },
         "require": {
             "ext-curl": "*",
-            "php": "^5.6 || ^7.0"
+            "php": "^5.6 || ^7.0 || ^7.1 || ^7.2"
         },
         "require-dev": {
             "phpmd/phpmd": "~2.6",
             "phpunit/phpunit": "~5.7",
             "squizlabs/php_codesniffer": "~3.0"
         },
-        "time": "2017-06-30T22:02:01+00:00",
+        "time": "2019-01-20T17:52:37+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

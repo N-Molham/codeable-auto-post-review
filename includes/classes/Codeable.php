@@ -1,28 +1,36 @@
 <?php namespace Codeable_AutoPost_Review;
 
+use stdClass;
+
 /**
  * Codeable logic
  *
  * @package Codeable_AutoPost_Review
  */
 class Codeable extends Component {
+
 	/**
 	 * Constructor
 	 *
 	 * @return void
 	 */
 	protected function init() {
+
 		parent::init();
 
 		// Plugin activation
-		register_activation_hook( CAPR_MAIN_FILE, [ &$this, 'register_cron_job' ] );
-		add_action( 'admin_action_capr_setup_cron', [ &$this, 'register_cron_job' ] );
+		register_activation_hook( CAPR_MAIN_FILE, [ $this, 'register_cron_job' ] );
+		add_action( 'admin_action_capr_setup_cron', [ $this, 'register_cron_job' ] );
 
 		// cron job callback
-		add_action( 'capr_check_reviews', [ &$this, 'check_for_new_reviews' ] );
-		add_action( 'admin_action_capr_run_cron', create_function( null, 'do_action("capr_check_reviews");' ) );
+		add_action( 'capr_check_reviews', [ $this, 'check_for_new_reviews' ] );
+		add_action( 'admin_action_capr_run_cron', static function () {
 
-		add_filter( 'cron_schedules', [ &$this, 'register_cron_custom_schedule' ] );
+			do_action( 'capr_check_reviews' );
+
+		} );
+
+		add_filter( 'cron_schedules', [ $this, 'register_cron_custom_schedule' ] );
 	}
 
 	/**
@@ -73,14 +81,16 @@ class Codeable extends Component {
 
 				// get reviews after the last one 
 				$reviews = array_filter( $reviews, function ( $review ) use ( $last_posted_review ) {
+
 					return $review->id > $last_posted_review;
+					
 				} );
 
 			}
 
 			foreach ( $reviews as $review ) {
 				/**
-				 * @param \stdClass $review
+				 * @param stdClass $review
 				 */
 				do_action( 'capr_latest_review', $review );
 
@@ -93,6 +103,7 @@ class Codeable extends Component {
 	 * @return int
 	 */
 	public function get_last_posted_review() {
+
 		return (int) get_option( 'capr_last_posted_review', 0 );
 	}
 
@@ -115,6 +126,7 @@ class Codeable extends Component {
 	 * @return void
 	 */
 	public function register_cron_job() {
+
 		wp_schedule_event( time(), 'twicehourly', 'capr_check_reviews' );
 	}
 }

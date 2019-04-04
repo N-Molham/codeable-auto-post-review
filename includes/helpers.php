@@ -8,6 +8,7 @@
  * @package Codeable_AutoPost_Review
  */
 final class Helpers {
+
 	/**
 	 * Text Domain
 	 *
@@ -35,6 +36,7 @@ final class Helpers {
 	 * @return string
 	 */
 	public static function enqueue_path() {
+
 		if ( null === self::$enqueue_path ) {
 			self::$enqueue_path = sprintf( '%s/assets/%s/', untrailingslashit( CAPR_URI ), self::is_script_debugging() ? 'src' : 'dist' );
 		}
@@ -48,6 +50,7 @@ final class Helpers {
 	 * @return string
 	 */
 	public static function assets_version() {
+
 		if ( null === self::$assets_version ) {
 			// assets version file
 			$version_file = CAPR_DIR . 'assets/last_update';
@@ -71,6 +74,7 @@ final class Helpers {
 	 * @return bool
 	 */
 	public static function is_valid_url( $url ) {
+
 		if ( 0 !== strpos( $url, 'http://' ) && 0 !== strpos( $url, 'https://' ) ) {
 			// Must start with http:// or https://
 			return false;
@@ -90,6 +94,7 @@ final class Helpers {
 	 * @return string
 	 */
 	public static function plugin_version() {
+
 		return Plugin::get_instance()->version;
 	}
 
@@ -101,6 +106,7 @@ final class Helpers {
 	 * @return bool
 	 */
 	public static function is_plugin_active( $plugin_file ) {
+
 		if ( ! function_exists( 'is_plugin_active' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -116,6 +122,7 @@ final class Helpers {
 	 * @return bool
 	 */
 	public static function is_plugin_inactive( $plugin_file ) {
+
 		if ( ! function_exists( 'is_plugin_inactive' ) ) {
 			include_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
@@ -131,6 +138,7 @@ final class Helpers {
 	 * @return mixed
 	 */
 	public static function get_object_prop( $object, $path, $separator = '.' ) {
+
 		$path_keys = explode( $separator, $path );
 		$target    = null;
 
@@ -159,13 +167,14 @@ final class Helpers {
 	 * Returns either '', a 3 or 6 digit hex color (with #), or null.
 	 * For sanitizing values without a #, see self::sanitize_hex_color_no_hash().
 	 *
-	 * @since 1.0
-	 *
 	 * @param string $color
 	 *
 	 * @return string|null
+	 * @since 1.0
+	 *
 	 */
 	public static function sanitize_hex_color( $color ) {
+
 		if ( '' === $color ) {
 			return '';
 		}
@@ -187,14 +196,15 @@ final class Helpers {
 	 *
 	 * Returns either '', a 3 or 6 digit hex color (without a #), or null.
 	 *
-	 * @since 1.0
-	 * @uses self::sanitize_hex_color()
-	 *
 	 * @param string $color
 	 *
 	 * @return string|null
+	 * @since 1.0
+	 * @uses self::sanitize_hex_color()
+	 *
 	 */
 	public static function sanitize_hex_color_no_hash( $color ) {
+
 		$color = ltrim( $color, '#' );
 
 		if ( '' === $color ) {
@@ -207,10 +217,11 @@ final class Helpers {
 	/**
 	 * Current visitor/session IP address
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public static function get_visitor_ip() {
+
 		$client  = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] : null;
 		$forward = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
 
@@ -228,10 +239,11 @@ final class Helpers {
 	/**
 	 * Determine scripts and styles enqueues suffix
 	 *
-	 * @since 1.0
 	 * @return string
+	 * @since 1.0
 	 */
 	public static function enqueue_suffix() {
+
 		return self::is_script_debugging() ? '' : '.min';
 	}
 
@@ -241,6 +253,7 @@ final class Helpers {
 	 * @return bool
 	 */
 	public static function is_script_debugging() {
+
 		return defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG;
 	}
 
@@ -253,6 +266,7 @@ final class Helpers {
 	 * @return void
 	 */
 	public static function redirect( $target = '', $status = 302 ) {
+
 		if ( '' === $target && isset( $_REQUEST['_wp_http_referer'] ) ) {
 			$target = esc_url( $_REQUEST['_wp_http_referer'] );
 		}
@@ -264,14 +278,15 @@ final class Helpers {
 	/**
 	 * Modified version of sanitize_text_field with line-breaks preserved
 	 *
-	 * @see sanitize_text_field
-	 * @since 2.9.0
-	 *
 	 * @param string $str
 	 *
 	 * @return string
+	 * @see sanitize_text_field
+	 * @since 2.9.0
+	 *
 	 */
 	public static function sanitize_text_field_with_linebreaks( $str ) {
+
 		$filtered = wp_check_invalid_utf8( $str );
 
 		if ( strpos( $filtered, '<' ) !== false ) {
@@ -295,10 +310,11 @@ final class Helpers {
 		/**
 		 * Filter a sanitized text field string.
 		 *
-		 * @since 2.9.0
-		 *
 		 * @param string $filtered The sanitized string.
 		 * @param string $str The string prior to being sanitized.
+		 *
+		 * @since 2.9.0
+		 *
 		 */
 		return apply_filters( 'sanitize_text_field_with_linebreaks', $filtered, $str );
 	}
@@ -311,11 +327,13 @@ final class Helpers {
 	 * @return string
 	 */
 	public static function parse_attributes( $attrs ) {
+
 		if ( empty( $attrs ) ) {
 			return '';
 		}
 
 		array_walk( $attrs, function ( &$item, $key ) {
+
 			$item = $key . '="' . esc_attr( is_array( $item ) ? implode( ' ', $item ) : $item ) . '"';
 		} );
 

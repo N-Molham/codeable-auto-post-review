@@ -31,6 +31,7 @@ class Settings_API {
 	 * @return self
 	 */
 	public function set_sections( $sections ) {
+
 		$this->settings_sections = $sections;
 
 		return $this;
@@ -44,9 +45,11 @@ class Settings_API {
 	 * @return self
 	 */
 	public function add_section( $section ) {
+
 		$this->settings_sections[] = $section;
 
 		return $this;
+		
 	}
 
 	/**
@@ -57,6 +60,7 @@ class Settings_API {
 	 * @return self
 	 */
 	public function set_fields( $fields ) {
+
 		$this->settings_fields = $fields;
 
 		return $this;
@@ -68,6 +72,7 @@ class Settings_API {
 	 * @return array
 	 */
 	public function get_fields() {
+
 		return $this->settings_fields;
 	}
 
@@ -80,9 +85,11 @@ class Settings_API {
 	 * @return self
 	 */
 	public function add_field( $section, $field ) {
+
 		$this->settings_fields[ $section ][] = wp_parse_args( $field, $this->field_default_args() );
 
 		return $this;
+
 	}
 
 	/**
@@ -96,21 +103,34 @@ class Settings_API {
 	 * @return void
 	 */
 	public function admin_init() {
+
 		//register settings sections
 		foreach ( $this->settings_sections as $section ) {
+
 			if ( false === get_option( $section['id'] ) ) {
+
 				add_option( $section['id'] );
+
 			}
 
 			$callback = null;
 			if ( isset( $section['desc'] ) && ! empty( $section['desc'] ) ) {
+
 				$section['desc'] = '<div class="inside">' . $section['desc'] . '</div>';
-				$callback        = create_function( '', 'echo "' . str_replace( '"', '\"', $section['desc'] ) . '";' );
+				$callback        = static function () use ( $section ) {
+
+					echo str_replace( '"', '\"', $section['desc'] );
+
+				};
+
 			} else if ( isset( $section['callback'] ) ) {
+
 				$callback = $section['callback'];
+
 			}
 
 			add_settings_section( $section['id'], $section['title'], $callback, $section['id'] );
+
 		}
 
 		//register settings fields
@@ -118,9 +138,9 @@ class Settings_API {
 			foreach ( $field as $field_settings ) {
 
 				$name     = $field_settings['name'];
-				$type     = isset( $field_settings['type'] ) ? $field_settings['type'] : 'text';
-				$label    = isset( $field_settings['label'] ) ? $field_settings['label'] : '';
-				$callback = isset( $field_settings['callback'] ) ? $field_settings['callback'] : [ &$this, 'callback_' . $type ];
+				$type     = $field_settings['type'] ?? 'text';
+				$label    = $field_settings['label'] ?? '';
+				$callback = $field_settings['callback'] ?? [ $this, 'callback_' . $type ];
 				if ( ! is_callable( $callback ) ) {
 					// skip field without a valid type
 					continue;
@@ -128,21 +148,21 @@ class Settings_API {
 
 				$args = [
 					'id'                => $name,
-					'class'             => isset( $field_settings['class'] ) ? $field_settings['class'] : $name,
-					'input_class'       => isset( $field_settings['input_class'] ) ? $field_settings['input_class'] : '',
+					'class'             => $field_settings['class'] ?? $name,
+					'input_class'       => $field_settings['input_class'] ?? '',
 					'label_for'         => "{$section}[{$name}]",
-					'desc'              => isset( $field_settings['desc'] ) ? $field_settings['desc'] : '',
+					'desc'              => $field_settings['desc'] ?? '',
 					'name'              => $label,
 					'section'           => $section,
-					'size'              => isset( $field_settings['size'] ) ? $field_settings['size'] : null,
-					'options'           => isset( $field_settings['options'] ) ? $field_settings['options'] : '',
-					'std'               => isset( $field_settings['default'] ) ? $field_settings['default'] : '',
-					'sanitize_callback' => isset( $field_settings['sanitize_callback'] ) ? $field_settings['sanitize_callback'] : '',
+					'size'              => $field_settings['size'] ?? null,
+					'options'           => $field_settings['options'] ?? '',
+					'std'               => $field_settings['default'] ?? '',
+					'sanitize_callback' => $field_settings['sanitize_callback'] ?? '',
 					'type'              => $type,
-					'placeholder'       => isset( $field_settings['placeholder'] ) ? $field_settings['placeholder'] : '',
-					'min'               => isset( $field_settings['min'] ) ? $field_settings['min'] : '',
-					'max'               => isset( $field_settings['max'] ) ? $field_settings['max'] : '',
-					'step'              => isset( $field_settings['step'] ) ? $field_settings['step'] : '',
+					'placeholder'       => $field_settings['placeholder'] ?? '',
+					'min'               => $field_settings['min'] ?? '',
+					'max'               => $field_settings['max'] ?? '',
+					'step'              => $field_settings['step'] ?? '',
 					'settings'          => $field_settings,
 				];
 
@@ -152,7 +172,7 @@ class Settings_API {
 
 		// creates our settings in the options table
 		foreach ( $this->settings_sections as $section ) {
-			register_setting( $section['id'], $section['id'], [ &$this, 'sanitize_options' ] );
+			register_setting( $section['id'], $section['id'], [ $this, 'sanitize_options' ] );
 		}
 	}
 
@@ -164,6 +184,7 @@ class Settings_API {
 	 * @return string
 	 */
 	public function get_field_description( $args ) {
+
 		return empty( $args['desc'] ) ? '' : sprintf( '<p class="description">%s</p>', $args['desc'] );
 	}
 
@@ -178,7 +199,7 @@ class Settings_API {
 
 		$value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 		$size        = isset( $args['size'] ) && null !== $args['size'] ? $args['size'] : 'regular';
-		$type        = isset( $args['type'] ) ? $args['type'] : 'text';
+		$type        = $args['type'] ?? 'text';
 		$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 
 		$html = sprintf( '<input type="%1$s" class="%2$s-text %7$s" id="%3$s[%4$s]" name="%3$s[%4$s]" value="%5$s"%6$s/>', $type, $size, $args['section'], $args['id'], $value, $placeholder, $args['input_class'] );
@@ -195,6 +216,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_url( $args ) {
+
 		$this->callback_text( $args );
 	}
 
@@ -206,9 +228,10 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_number( $args ) {
+
 		$value       = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 		$size        = isset( $args['size'] ) && null !== $args['size'] ? $args['size'] : 'regular';
-		$type        = isset( $args['type'] ) ? $args['type'] : 'number';
+		$type        = $args['type'] ?? 'number';
 		$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
 		$min         = empty( $args['min'] ) ? '' : ' min="' . $args['min'] . '"';
 		$max         = empty( $args['max'] ) ? '' : ' max="' . $args['max'] . '"';
@@ -254,7 +277,7 @@ class Settings_API {
 		$html  = '<fieldset>';
 		$html  .= sprintf( '<input type="hidden" name="%1$s[%2$s]" value="" />', $args['section'], $args['id'] );
 		foreach ( $args['options'] as $key => $label ) {
-			$checked = isset( $value[ $key ] ) ? $value[ $key ] : '0';
+			$checked = $value[ $key ] ?? '0';
 			$html    .= sprintf( '<label for="wpuf-%1$s[%2$s][%3$s]">', $args['section'], $args['id'], $key );
 			$html    .= sprintf( '<input type="checkbox" class="checkbox" id="wpuf-%1$s[%2$s][%3$s]" name="%1$s[%2$s][%3$s]" value="%3$s" %4$s />', $args['section'], $args['id'], $key, checked( $checked, $key, false ) );
 			$html    .= sprintf( '%1$s</label><br>', $label );
@@ -321,11 +344,12 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_textarea( $args ) {
+
 		$value       = esc_textarea( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 		$size        = isset( $args['size'] ) && null !== $args['size'] ? $args['size'] : 'regular';
 		$placeholder = empty( $args['placeholder'] ) ? '' : ' placeholder="' . $args['placeholder'] . '"';
-		$rows        = isset( $args['settings']['rows'] ) ? $args['settings']['rows'] : '8';
-		$columns     = isset( $args['settings']['cols'] ) ? $args['settings']['cols'] : '55';
+		$rows        = $args['settings']['rows'] ?? '8';
+		$columns     = $args['settings']['cols'] ?? '55';
 
 		$html = sprintf( '<textarea rows="%6$s" cols="%7$s" class="%1$s-text" id="%2$s[%3$s]" name="%2$s[%3$s]"%4$s>%5$s</textarea>', $size, $args['section'], $args['id'], $placeholder, $value, $rows, $columns );
 		$html .= $this->get_field_description( $args );
@@ -341,6 +365,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_editor( $args ) {
+
 		$value = $this->get_option( $args['id'], $args['section'], $args['std'] );
 
 		ob_start();
@@ -363,6 +388,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_html( $args ) {
+
 		echo $this->get_field_description( $args );
 	}
 
@@ -408,8 +434,7 @@ class Settings_API {
 
 		$value = esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) );
 		$size  = isset( $args['size'] ) && null !== $args['size'] ? $args['size'] : 'regular';
-		$id    = $args['section'] . '[' . $args['id'] . ']';
-		$label = isset( $args['options']['button_label'] ) ? $args['options']['button_label'] : __( 'Choose File' );
+		$label = $args['options']['button_label'] ?? __( 'Choose File' );
 
 		$html = sprintf( '<input type="text" class="%1$s-text mkecs-url" id="%2$s[%3$s]" name="%2$s[%3$s]" value="%4$s"/>', $size, $args['section'], $args['id'], $value );
 		$html .= '<input type="button" class="button mkecs-browse" value="' . $label . '" />';
@@ -462,6 +487,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_pages( $args ) {
+
 		echo wp_dropdown_pages( [
 			'selected' => esc_attr( $this->get_option( $args['id'], $args['section'], $args['std'] ) ),
 			'name'     => $args['section'] . '[' . $args['id'] . ']',
@@ -478,6 +504,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function callback_roles( $args ) {
+
 		echo '<select name="', $args['section'] . '[' . $args['id'] . ']', '" id="', $args['section'] . '[' . $args['id'] . ']', '">';
 
 		$selected_role  = $this->get_option( $args['id'], $args['section'], $args['std'] );
@@ -486,7 +513,7 @@ class Settings_API {
 		foreach ( $editable_roles as $role => $details ) {
 			$name = translate_user_role( $details['name'] );
 			// preselect specified role
-			if ( $selected_role == $role ) {
+			if ( $selected_role === $role ) {
 				echo '<option selected="selected" value="' . esc_attr( $role ) . '"">', $name, ' ( ', $role, ' )</option>';
 			} else {
 				echo '<option value="' . esc_attr( $role ) . '"">', $name, ' ( ', $role, ' )</option>';
@@ -504,6 +531,7 @@ class Settings_API {
 	 * @return mixed
 	 */
 	public function sanitize_options( $options ) {
+
 		if ( ! $options ) {
 			return $options;
 		}
@@ -513,7 +541,7 @@ class Settings_API {
 
 			// If callback is set, call it
 			if ( $sanitize_callback && is_callable( $sanitize_callback ) ) {
-				$options[ $option_slug ] = call_user_func( $sanitize_callback, $option_value );
+				$options[ $option_slug ] = $sanitize_callback( $option_value );
 				continue;
 			}
 		}
@@ -529,6 +557,7 @@ class Settings_API {
 	 * @return mixed string or bool false
 	 */
 	public function get_sanitize_callback( $slug = '' ) {
+
 		if ( empty( $slug ) ) {
 			return false;
 		}
@@ -536,7 +565,7 @@ class Settings_API {
 		// Iterate over registered fields and see if we can find proper callback
 		foreach ( $this->settings_fields as $section => $options ) {
 			foreach ( $options as $option ) {
-				if ( $option['name'] != $slug ) {
+				if ( $option['name'] !== $slug ) {
 					continue;
 				}
 
@@ -558,17 +587,18 @@ class Settings_API {
 	 * @return mixed
 	 */
 	public function get_option( $option, $section, $default = null ) {
-		if ( ! isset( $this->settings_fields[ $section ] ) || ! isset( $this->settings_fields[ $section ][ $option ] ) ) {
+
+		if ( ! isset( $this->settings_fields[ $section ][ $option ] ) ) {
 			// invalid field
 			return null;
 		}
 
 		// use which default
-		$default = null === $default ? $this->settings_fields[ $section ][ $option ]['default'] : $default;
+		$default = $default ?? $this->settings_fields[ $section ][ $option ]['default'];
 
 		$options = get_option( $section );
 
-		return isset( $options[ $option ] ) ? $options[ $option ] : $default;
+		return $options[ $option ] ?? $default;
 	}
 
 	/**
@@ -579,6 +609,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function show_navigation() {
+
 		$html = '<h2 class="nav-tab-wrapper">';
 
 		$count = count( $this->settings_sections );
@@ -605,6 +636,7 @@ class Settings_API {
 	 * @return void
 	 */
 	public function show_forms() {
+
 		// vars
 		$enqueue_path   = Helpers::enqueue_path();
 		$assets_version = Helpers::assets_version();
@@ -647,6 +679,7 @@ class Settings_API {
 	 * @return array
 	 */
 	public function field_default_args() {
+
 		return [
 			'name'    => '',
 			'label'   => '',
